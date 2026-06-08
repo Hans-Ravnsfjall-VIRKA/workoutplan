@@ -150,6 +150,12 @@
     color: var(--text-2); cursor: pointer; -webkit-tap-highlight-color: transparent; }
   .cu-btn:focus-visible{ outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
   .cu-btn.primary{ color: var(--warn-text); }
+  .act-btn{ font: inherit; font-size: 15px; font-weight: 600; color: var(--surface);
+    background: var(--accent); border: 0; border-radius: 12px; padding: 11px 16px; cursor: pointer;
+    -webkit-tap-highlight-color: transparent; transition: transform 0.18s var(--ease), filter 0.2s var(--ease); }
+  .act-btn:active{ transform: scale(0.97); }
+  .act-btn:hover{ filter: brightness(1.04); }
+  .act-btn:focus-visible{ outline: 2px solid var(--accent); outline-offset: 3px; }
 
   /* ---------- week sections ---------- */
   section{ margin-top: 30px; }
@@ -198,6 +204,39 @@
   .vlink .play-i{ width: 12px; height: 12px; fill: var(--accent-strong); stroke: none; opacity: 0.9; vertical-align: -1px; margin-left: 4px; }
   .vlink:hover{ text-decoration: underline; }
   .vlink:focus-visible{ outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+
+  /* per-day adjustment controls */
+  .acts{ display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .act-chip{ font: inherit; font-size: 13px; font-weight: 600; color: var(--text-2);
+    background: var(--surface-2); border: 0.5px solid var(--hair); border-radius: 999px; padding: 7px 13px;
+    cursor: pointer; -webkit-tap-highlight-color: transparent; transition: filter 0.18s var(--ease); }
+  .act-chip:hover{ filter: brightness(0.97); }
+  .act-chip:active{ transform: scale(0.97); }
+  .act-chip:focus-visible{ outline: 2px solid var(--accent); outline-offset: 2px; }
+  .act-sel{ position: relative; }
+  .act-sel select{ font: inherit; font-size: 13px; font-weight: 600; color: var(--text-2);
+    background: var(--surface-2); border: 0.5px solid var(--hair); border-radius: 999px;
+    padding: 7px 30px 7px 13px; cursor: pointer; -webkit-appearance: none; appearance: none; max-width: 200px; }
+  .act-sel::after{ content:"⌄"; position: absolute; right: 12px; top: 47%; transform: translateY(-50%);
+    pointer-events: none; color: var(--text-3); font-size: 14px; }
+  .act-sel select:focus-visible{ outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .tag{ display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--accent-strong); background: var(--accent-soft); border-radius: 999px; padding: 2px 7px; vertical-align: 1px; }
+  .tag.skip{ color: var(--text-3); background: var(--surface-2); }
+
+  .day.is-skip .day-body .t, .hero.is-skip h2{ color: var(--text-3); text-decoration: line-through; text-decoration-thickness: 1px; }
+  .day.is-skip.is-done .day-body .t{ text-decoration: none; }
+
+  .switch{ display: flex; align-items: center; gap: 11px; cursor: pointer; margin-top: 4px; font-weight: 500; color: var(--text); }
+  .switch input{ -webkit-appearance: none; appearance: none; width: 44px; height: 26px; border-radius: 999px;
+    background: var(--surface-2); border: 0.5px solid var(--hair); position: relative; cursor: pointer; flex: none;
+    transition: background 0.22s var(--ease); }
+  .switch input::after{ content:""; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; border-radius: 999px;
+    background: var(--surface); box-shadow: 0 1px 3px oklch(0 0 0 / 0.25); transition: transform 0.22s var(--ease); }
+  .switch input:checked{ background: var(--accent); border-color: var(--accent); }
+  .switch input:checked::after{ transform: translateX(18px); }
+  .switch input:focus-visible{ outline: 2px solid var(--accent); outline-offset: 3px; }
 
   /* ---------- reference ---------- */
   .ref{ margin-top: 36px; }
@@ -302,11 +341,22 @@
         </div>
       </details>
       <details>
+        <summary>Adjusting the plan <span class="mk"></span></summary>
+        <div class="ref-body">
+          <p>Open any day and use the buttons there. You can <strong>skip</strong> it, <strong>change the activity</strong> (run instead of strength, an easy walk instead of a run, and so on), or <strong>swap</strong> it with another day so the week keeps its shape. <strong>Reset</strong> puts a day back.</p>
+          <label class="switch"><input type="checkbox" id="ease-toggle"><span>Knee is sore: hold the long run</span></label>
+          <p style="margin-top:8px">While this is on, upcoming long runs stop getting longer and stay at your last distance until you turn it off. This is the plan's own "do not increase until the knee is stable" rule.</p>
+          <p style="margin-top:10px">Changes are saved in this browser. After editing, tap <strong>Add reminders to Calendar</strong> again to refresh the alerts. <button class="cu-btn primary" id="reset-all" style="margin-left:2px">Reset all changes</button></p>
+        </div>
+      </details>
+      <details>
         <summary>Reminders <span class="mk"></span></summary>
         <div class="ref-body">
-          <p>When you open the app, it checks for earlier sessions you have not ticked off and shows them at the top.</p>
-          <p>You can also let it show a system notification each time you open it with sessions outstanding.</p>
-          <button class="cu-btn primary" id="notif-btn" style="margin-top:4px">Turn on notifications</button>
+          <p><strong>Timed reminders (12:00, 15:00, 18:00).</strong> Add the plan to your phone's calendar and it will alert you at those three times each day with the session to do. This runs natively on the phone, so it works even when this app is closed.</p>
+          <button class="act-btn" id="cal-btn">Add reminders to Calendar</button>
+          <p id="cal-state" style="margin-top:10px;color:var(--text-3)">On iPhone this opens in Calendar. Rest days get one midday note; training days get all three.</p>
+          <p style="margin-top:14px"><strong>When you open the app</strong> it also shows any earlier sessions you have not ticked off, at the top. You can let it pop a system notification too.</p>
+          <button class="cu-btn primary" id="notif-btn" style="margin-top:2px">Turn on notifications</button>
           <p id="notif-state" style="margin-top:9px;color:var(--text-3)"></p>
         </div>
       </details>
@@ -458,9 +508,70 @@ const ACK_STORE = 'hm_ack_v1';
 function loadAck(){ try{ return JSON.parse(localStorage.getItem(ACK_STORE)||'{}'); }catch(e){ return {}; } }
 function saveAck(d){ try{ localStorage.setItem(ACK_STORE, JSON.stringify(d)); }catch(e){} }
 
+// per-day overrides: date -> { status?:'skipped', type?, title?, detail? }
+const OVER_STORE = 'hm_over_v1';
+function loadOver(){ try{ return JSON.parse(localStorage.getItem(OVER_STORE)||'{}'); }catch(e){ return {}; } }
+function saveOver(d){ try{ localStorage.setItem(OVER_STORE, JSON.stringify(d)); }catch(e){} }
+
+// settings: { easeOff:bool }  (hold long-run distance while the knee settles)
+const SET_STORE = 'hm_set_v1';
+function loadSet(){ try{ return JSON.parse(localStorage.getItem(SET_STORE)||'{}'); }catch(e){ return {}; } }
+function saveSet(d){ try{ localStorage.setItem(SET_STORE, JSON.stringify(d)); }catch(e){} }
+
 let DONE = loadDone();
 let ACK = loadAck();
+let OVER = loadOver();
+let SET = loadSet();
 let DATA = [];
+let BYDATE = {};
+
+// activity templates for "change activity"
+const ACTIVITIES = {
+  run:      { type:'run',      title:'Easy run',         detail:'Easy run, easy pace 7:45–8:30 /km. Run/walk whenever you need it. Stop at 4–5/10 knee pain.' },
+  longrun:  { type:'longrun',  title:'Long run',         detail:'Long run, very easy, 8:00–9:00 /km. Run/walk from the start if needed. Stop at 4–5/10 knee pain.' },
+  strength: { type:'strength', title:'Strength',         detail:'Strength 25–35 min. Controlled and pain-free.' },
+  cardio:   { type:'cardio',   title:'Bike or spinning', detail:'Bike or spinning 35–45 min, easy and low-impact.' },
+  walk:     { type:'rest',     title:'Easy walk',        detail:'Easy walk 20–30 min.' },
+  rest:     { type:'rest',     title:'Rest',             detail:'Rest day.' }
+};
+const ACTIVITY_LABELS = [['run','Easy run'],['strength','Strength'],['cardio','Bike or spinning'],['walk','Easy walk'],['rest','Rest']];
+
+// parse the upper km figure from a detail string ("11–12 km" -> 12, "9 km" -> 9)
+function parseKm(s){ const m=String(s).match(/(\d+)(?:\s*[–-]\s*(\d+))?\s*km/); if(!m) return null; return m[2]?+m[2]:+m[1]; }
+
+// ease-off cap: upcoming long runs should not exceed the most recent long run at/before today
+let LONG_CAP = null;
+function recomputeCap(){
+  if(!SET.easeOff){ LONG_CAP = null; return; }
+  const T = todayISO();
+  let cap = null, firstUpcoming = null;
+  DATA.forEach(d=>{
+    if(d.type!=='longrun') return;
+    const km = parseKm(d.detail);
+    if(km==null) return;
+    if(d.date < T) cap = km;                       // last past long run sets the ceiling
+    else if(firstUpcoming==null) firstUpcoming = km;
+  });
+  LONG_CAP = (cap!=null) ? cap : firstUpcoming;    // before any long run done, hold at the first one
+}
+
+// resolved view of a day, applying overrides + ease-off
+function eff(d){
+  const o = OVER[d.date] || {};
+  let type = o.type || d.type;
+  let title = o.title || d.title;
+  let detail = o.detail || d.detail;
+  let held = false;
+  if(type==='longrun' && LONG_CAP!=null && d.date>=todayISO()){
+    const km = parseKm(detail);
+    if(km!=null && km>LONG_CAP){
+      detail = 'Long run '+LONG_CAP+' km, very easy. Held at this distance while the knee settles. 8:00–9:00 /km.';
+      held = true;
+    }
+  }
+  return { date:d.date, dow:d.dow, week:d.week, phase:d.phase, type, title, detail,
+           status:o.status||null, changed:!!(o.type||o.title||o.detail), held };
+}
 
 function todayISO(){
   const n = new Date();
@@ -531,10 +642,10 @@ function updateProgress(){
 const BELL = '<svg viewBox="0 0 24 24"><path d="M18 8.5a6 6 0 1 0-12 0c0 5.5-2 7-2 7h16s-2-1.5-2-7"/><path d="M10.5 19.5a2 2 0 0 0 3 0"/></svg>';
 
 // a "missed" session = a past day (before today) that is not a rest day,
-// not yet checked off, and not yet acknowledged.
+// not skipped, not yet checked off, and not yet acknowledged.
 function getMisses(){
   const T = todayISO();
-  return DATA.filter(d => d.date < T && d.type !== 'rest' && !DONE[d.date] && !ACK[d.date]);
+  return DATA.map(eff).filter(d => d.date < T && d.type !== 'rest' && d.status !== 'skipped' && !DONE[d.date] && !ACK[d.date]);
 }
 
 function refreshCatchup(){
@@ -606,21 +717,100 @@ function setupNotifBtn(){
   sync();
 }
 
+/* ---- Calendar reminders (.ics) : timed alerts at 12:00 / 15:00 / 18:00 ---- */
+const VTZ = [
+  'BEGIN:VTIMEZONE','TZID:Atlantic/Faroe',
+  'BEGIN:DAYLIGHT','TZOFFSETFROM:+0000','TZOFFSETTO:+0100','TZNAME:WEST','DTSTART:19810329T010000','RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU','END:DAYLIGHT',
+  'BEGIN:STANDARD','TZOFFSETFROM:+0100','TZOFFSETTO:+0000','TZNAME:WET','DTSTART:19961027T020000','RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU','END:STANDARD',
+  'END:VTIMEZONE'
+].join('\r\n');
+
+function icsEsc(s){ return String(s).replace(/\\/g,'\\\\').replace(/;/g,'\\;').replace(/,/g,'\\,').replace(/\n/g,'\\n'); }
+function icsFold(line){ const o=[]; let s=line; while(s.length>72){ o.push(s.slice(0,72)); s=' '+s.slice(72); } o.push(s); return o.join('\r\n'); }
+function firstSentence(t){ const m=String(t).match(/^[^.]*\./); return (m?m[0]:t).trim(); }
+
+function buildICS(){
+  recomputeCap();
+  const stamp = new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'');
+  const TZ = 'Atlantic/Faroe';
+  const evs = [];
+  DATA.map(eff).forEach(d=>{
+    if(d.status==='skipped') return;                       // skipped: no reminder
+    const times = (d.type==='rest') ? ['120000'] : ['120000','150000','180000'];
+    const fs = firstSentence(d.detail);
+    const summary = icsEsc(/\d/.test(fs) ? fs : d.title);
+    const desc = icsEsc(d.detail);
+    const base = d.date.replace(/-/g,'');
+    times.forEach(tm=>{
+      const endStr = tm.slice(0,2)+'1500';
+      evs.push([
+        'BEGIN:VEVENT',
+        'UID:'+d.date+'-'+tm+'@hansravnsfjall',
+        'DTSTAMP:'+stamp,
+        'DTSTART;TZID='+TZ+':'+base+'T'+tm,
+        'DTEND;TZID='+TZ+':'+base+'T'+endStr,
+        icsFold('SUMMARY:'+summary),
+        icsFold('DESCRIPTION:'+desc),
+        'BEGIN:VALARM','ACTION:DISPLAY',icsFold('DESCRIPTION:'+summary),'TRIGGER:PT0S','END:VALARM',
+        'END:VEVENT'
+      ].join('\r\n'));
+    });
+  });
+  return [
+    'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Hans Ravnsfjall//Training Plan//EN',
+    'CALSCALE:GREGORIAN','METHOD:PUBLISH','X-WR-CALNAME:Hans Ravnsfjall','X-WR-TIMEZONE:'+TZ,
+    VTZ, ...evs, 'END:VCALENDAR'
+  ].join('\r\n');
+}
+
+function setupCalBtn(){
+  const btn = document.getElementById('cal-btn');
+  if(!btn) return;
+  btn.addEventListener('click', ()=>{
+    try{
+      const blob = new Blob([buildICS()], {type:'text/calendar;charset=utf-8'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'hans-ravnsfjall-reminders.ics';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url), 1500);
+    }catch(e){
+      const st = document.getElementById('cal-state');
+      if(st) st.textContent = 'Could not create the file in this browser. Try Safari or Chrome.';
+    }
+  });
+}
+
+function setupAdjust(){
+  const t = document.getElementById('ease-toggle');
+  if(t){ t.checked = !!SET.easeOff; t.addEventListener('change', ()=> setEaseOff(t.checked)); }
+  const r = document.getElementById('reset-all'); if(r) r.addEventListener('click', resetAll);
+}
+
+function tagFor(e){
+  if(e.status==='skipped') return '<span class="tag skip">Skipped</span>';
+  if(e.held) return '<span class="tag">Held</span>';
+  if(e.changed) return '<span class="tag">Changed</span>';
+  return '';
+}
+
 function render(){
   const T = todayISO();
+  recomputeCap();
 
   // ----- hero (today, or next upcoming day if plan hasn't started / has finished) -----
-  let today = DATA.find(d=>d.date===T);
+  let base = DATA.find(d=>d.date===T);
   let heroLabel = 'Today';
-  if(!today){
+  if(!base){
     const up = DATA.find(d=>d.date>T);
-    if(up){ today = up; heroLabel = 'Next up'; }
-    else { today = DATA[DATA.length-1]; heroLabel = 'Final session'; }
+    if(up){ base = up; heroLabel = 'Next up'; }
+    else { base = DATA[DATA.length-1]; heroLabel = 'Final session'; }
   }
+  const today = eff(base);
   const heroDone = !!DONE[today.date];
   document.getElementById('hero').innerHTML = `
-    <div class="hero ${heroDone?'is-done':''}" data-date="${today.date}">
-      <div class="kicker"><span class="dot"></span>${heroLabel} · ${FULLDOW[today.dow]} ${fmt(today.date)}</div>
+    <div class="hero ${heroDone?'is-done':''} ${today.status==='skipped'?'is-skip':''}" data-date="${today.date}">
+      <div class="kicker"><span class="dot"></span>${heroLabel} · ${FULLDOW[today.dow]} ${fmt(today.date)} ${tagFor(today)}</div>
       <div class="hero-main">
         <div class="hero-text">
           <h2>${today.title}</h2>
@@ -632,6 +822,9 @@ function render(){
     </div>`;
   document.querySelector('#hero .check').addEventListener('click', ()=> setDone(today.date, !DONE[today.date]));
 
+  // option list for "swap with"
+  const swapOpts = DATA.map(eff).map(e=>`<option value="${e.date}">${e.dow} ${fmt(e.date)} · ${e.title}</option>`).join('');
+
   // ----- weeks -----
   const byWeek = {};
   DATA.forEach(d=>{ (byWeek[d.week] ||= []).push(d); });
@@ -641,15 +834,20 @@ function render(){
     const phase = days[0].phase;
     const hot = (phase==='Peak'||phase==='Race');
     const range = fmtRange(days[0].date, days[days.length-1].date);
-    const rows = days.map(d=>{
+    const rows = days.map(bd=>{
+      const d = eff(bd);
       const done = !!DONE[d.date];
       const isToday = d.date===T;
+      const skipped = d.status==='skipped';
+      const adjusted = d.changed || skipped || d.held;
+      const actSel = ['<option value="">Change activity…</option>']
+        .concat(ACTIVITY_LABELS.map(([k,l])=>`<option value="${k}">${l}</option>`)).join('');
       return `
-      <div class="day ${done?'is-done':''} ${isToday?'is-today':''}" data-date="${d.date}">
+      <div class="day ${done?'is-done':''} ${isToday?'is-today':''} ${skipped?'is-skip':''}" data-date="${d.date}">
         <div class="day-row" role="button" tabindex="0" aria-expanded="false">
           <button class="check ${done?'done':''}" aria-pressed="${done}" aria-label="Mark ${d.dow} ${d.title} done">${TICK}</button>
           <div class="day-body">
-            <div class="t">${d.title}</div>
+            <div class="t">${d.title} ${tagFor(d)}</div>
             <div class="m">${d.dow} · ${fmt(d.date)}</div>
           </div>
           <div class="glyph">${ICONS[d.type]||''}</div>
@@ -657,6 +855,12 @@ function render(){
         </div>
         <div class="detail"><div class="detail-inner"><div class="detail-pad">
           <p>${d.detail}</p>${contextBlock(d.type)}
+          <div class="acts">
+            <button class="act-chip" data-act="skip">${skipped?'Bring back':'Skip this day'}</button>
+            <div class="act-sel"><select data-act="change">${actSel}</select></div>
+            <div class="act-sel"><select data-act="swap"><option value="">Swap with…</option>${swapOpts}</select></div>
+            ${adjusted?'<button class="act-chip" data-act="reset">Reset</button>':''}
+          </div>
         </div></div></div>
       </div>`;
     }).join('');
@@ -679,11 +883,51 @@ function render(){
     const toggle = ()=>{ const open = day.classList.toggle('open'); row.setAttribute('aria-expanded', open?'true':'false'); };
     row.addEventListener('click', toggle);
     row.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggle(); } });
+
+    const acts = day.querySelector('.acts');
+    acts.addEventListener('click', e=> e.stopPropagation());
+    acts.querySelector('[data-act="skip"]').addEventListener('click', ()=> toggleSkip(date));
+    const reset = acts.querySelector('[data-act="reset"]'); if(reset) reset.addEventListener('click', ()=> resetDay(date));
+    acts.querySelector('[data-act="change"]').addEventListener('change', e=>{ if(e.target.value) changeActivity(date, e.target.value); });
+    acts.querySelector('[data-act="swap"]').addEventListener('change', e=>{ if(e.target.value) swapDays(date, e.target.value); });
   });
 
   updateProgress();
   refreshCatchup();
 }
+
+/* ---------- adjustments (all local, saved to this browser) ---------- */
+function persistOver(){ saveOver(OVER); render(); }
+
+function toggleSkip(date){
+  const o = OVER[date] || {};
+  if(o.status==='skipped') delete o.status; else o.status='skipped';
+  if(Object.keys(o).length) OVER[date]=o; else delete OVER[date];
+  persistOver();
+}
+function changeActivity(date, key){
+  const a = ACTIVITIES[key]; if(!a) return;
+  const o = OVER[date] || {};
+  o.type=a.type; o.title=a.title; o.detail=a.detail; delete o.status;
+  OVER[date]=o; persistOver();
+}
+function swapDays(a, b){
+  if(a===b) return;
+  const ea = eff(BYDATE[a]); const eb = eff(BYDATE[b]);
+  OVER[a] = { type:eb.type, title:eb.title, detail:eb.detail };
+  OVER[b] = { type:ea.type, title:ea.title, detail:ea.detail };
+  persistOver();
+}
+function resetDay(date){ delete OVER[date]; persistOver(); }
+
+function resetAll(){
+  if(!confirm('Reset all your changes back to the original plan? Your ticked-off days stay.')) return;
+  OVER = {}; saveOver(OVER);
+  SET.easeOff = false; saveSet(SET);
+  const t = document.getElementById('ease-toggle'); if(t) t.checked = false;
+  render();
+}
+function setEaseOff(on){ SET.easeOff = !!on; saveSet(SET); render(); }
 
 function heroNote(type){
   if(type==='strength') return `<div class="hero-note">Strength routine is in the session details and under <strong>Plan notes</strong> below.</div>`;
@@ -699,9 +943,12 @@ async function boot(){
     if(res.ok){ const t = await res.text(); if(t && t.indexOf('week')!==-1) text = t; }
   }catch(e){ /* file:// or offline → use embedded */ }
   DATA = toData(text);
+  BYDATE = {}; DATA.forEach(d=> BYDATE[d.date]=d);
   document.querySelectorAll('.mk').forEach(m=> m.innerHTML = CHEV);
   render();
   setupNotifBtn();
+  setupCalBtn();
+  setupAdjust();
   maybeNotify();
 }
 boot();
