@@ -204,6 +204,29 @@
   .vlink .play-i{ width: 12px; height: 12px; fill: var(--accent-strong); stroke: none; opacity: 0.9; vertical-align: -1px; margin-left: 4px; }
   .vlink:hover{ text-decoration: underline; }
   .vlink:focus-visible{ outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+  .vbtn{ background: none; border: 0; padding: 0; font: inherit; font-size: inherit; font-weight: 500;
+    color: var(--accent-strong); cursor: pointer; -webkit-tap-highlight-color: transparent; white-space: nowrap; }
+  .vbtn .play-i{ width: 12px; height: 12px; fill: var(--accent-strong); stroke: none; opacity: 0.9; vertical-align: -1px; margin-left: 4px; }
+  .vbtn:hover{ text-decoration: underline; }
+  .vbtn:focus-visible{ outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+
+  /* embedded video player (lazy facade) */
+  .video-frame{ position: relative; aspect-ratio: 16 / 9; border-radius: 14px; overflow: hidden;
+    background: var(--surface-2); margin-top: 2px; }
+  .video-frame iframe{ position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
+  .fac{ position: absolute; inset: 0; border: 0; padding: 0; width: 100%; height: 100%; cursor: pointer;
+    background-color: var(--surface-2); background-size: cover; background-position: center;
+    display: grid; place-items: center; -webkit-tap-highlight-color: transparent; }
+  .fac::before{ content: ""; position: absolute; inset: 0; background: oklch(0 0 0 / 0.16); transition: background 0.2s var(--ease); }
+  .fac:hover::before{ background: oklch(0 0 0 / 0.28); }
+  .pbtn{ position: relative; width: 58px; height: 58px; border-radius: 999px;
+    background: oklch(1 0 0 / 0.92); display: grid; place-items: center;
+    box-shadow: 0 4px 16px oklch(0 0 0 / 0.3); transition: transform 0.18s var(--ease); }
+  .fac:hover .pbtn{ transform: scale(1.06); }
+  .pbtn svg{ width: 26px; height: 26px; fill: oklch(0.5 0.1 214); margin-left: 3px; }
+  .demo-foot{ margin: 9px 0 0 !important; font-size: 12.5px; color: var(--text-3) !important; }
+  .demo-foot a{ color: var(--accent-strong); text-decoration: none; }
+  .demo-foot a:hover{ text-decoration: underline; }
 
   /* per-day adjustment controls */
   .acts{ display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
@@ -320,12 +343,12 @@
         <div class="ref-body">
           <p>Twice a week, 25–35 min. Keep everything controlled and pain-free. Tap an exercise for a demonstration.</p>
           <ul>
-            <li><span><a class="vlink" href="https://www.youtube.com/results?search_query=glute%20bridge%20exercise%20proper%20form" target="_blank" rel="noopener">Glute bridges</a>: 3 × 12</span></li>
-            <li><span><a class="vlink" href="https://www.youtube.com/results?search_query=step%20up%20exercise%20proper%20form%20technique" target="_blank" rel="noopener">Step-ups</a>: 3 × 8 each leg</span></li>
-            <li><span><a class="vlink" href="https://www.youtube.com/results?search_query=romanian%20deadlift%20dumbbell%20proper%20form" target="_blank" rel="noopener">Romanian / light deadlift</a>: 3 × 8–10</span></li>
-            <li><span><a class="vlink" href="https://www.youtube.com/results?search_query=calf%20raise%20exercise%20proper%20form" target="_blank" rel="noopener">Calf raises</a>: 3 × 12–15</span></li>
-            <li><span><a class="vlink" href="https://www.youtube.com/results?search_query=side%20plank%20proper%20form%20technique" target="_blank" rel="noopener">Side plank</a>: 2 × 30 sec each side</span></li>
-            <li><span><a class="vlink" href="https://www.youtube.com/results?search_query=banded%20lateral%20walk%20side%20step%20exercise" target="_blank" rel="noopener">Banded side steps</a> (optional): 2 × 12 each side</span></li>
+            <li><span><button class="vbtn" type="button" data-demo="glute">Glute bridges</button>: 3 × 12</span></li>
+            <li><span><button class="vbtn" type="button" data-demo="stepup">Step-ups</button>: 3 × 8 each leg</span></li>
+            <li><span><button class="vbtn" type="button" data-demo="rdl">Romanian / light deadlift</button>: 3 × 8–10</span></li>
+            <li><span><button class="vbtn" type="button" data-demo="calf">Calf raises</button>: 3 × 12–15</span></li>
+            <li><span><button class="vbtn" type="button" data-demo="plank">Side plank</button>: 2 × 30 sec each side</span></li>
+            <li><span><button class="vbtn" type="button" data-demo="band">Banded side steps</button> (optional): 2 × 12 each side</span></li>
           </ul>
         </div>
       </details>
@@ -362,6 +385,11 @@
       </details>
     </div>
   </div>
+
+  <section class="ref">
+    <h3>Exercise demos</h3>
+    <div class="ref-list" id="demos-list"></div>
+  </section>
 
   <footer>Goal: finish healthy and strong on 30 August.<br>Tap a circle when a session is done.</footer>
 </main>
@@ -470,6 +498,70 @@ const CHEV = '<svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>';
 const PLAY = '<svg class="play-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.2v13.6L19 12z"/></svg>';
 const YT = q => 'https://www.youtube.com/results?search_query=' + encodeURIComponent(q);
 const vlink = (label, query) => `<a class="vlink" href="${YT(query)}" target="_blank" rel="noopener">${label}${PLAY}</a>`;
+
+// embedded exercise demonstrations (short, reputable). Edit an id here to swap a video.
+const PLAYBIG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.2v13.6L19 12z"/></svg>';
+const DEMOS = [
+  { key:'glute',   label:'Glute bridges',      id:'XLXGydU5DdU', src:'Bupa' },
+  { key:'stepup',  label:'Step-ups',           id:'wfhXnLILqdk', src:'Physiotherapy' },
+  { key:'rdl',     label:'Romanian deadlift',  id:'V8Hdl1FiNt4', src:'NASM' },
+  { key:'calf',    label:'Calf raises',        id:'97NbelB5yvQ', src:'Demo' },
+  { key:'plank',   label:'Side plank',         id:'44ND4bOB-T0', src:'NASM' },
+  { key:'band',    label:'Banded side steps',  id:'9MuZrYJddcQ', src:'Runna' },
+  { key:'runwalk', label:'Run / walk method',  id:'UAl8WwsPoF8', src:'Jeff Galloway' }
+];
+const DEMO_BY = {}; DEMOS.forEach(d=> DEMO_BY[d.key]=d);
+// a small in-app button that opens the matching demo accordion
+const dbtn = (key, label) => `<button class="vbtn" type="button" data-demo="${key}">${label}${PLAY}</button>`;
+
+function demosHTML(){
+  return DEMOS.map(d=>`
+    <details id="demo-${d.key}">
+      <summary>${d.label} <span class="mk">${CHEV}</span></summary>
+      <div class="ref-body">
+        <div class="video-frame"><button class="fac" type="button" data-id="${d.id}" aria-label="Play ${d.label} demonstration"><span class="pbtn">${PLAYBIG}</span></button></div>
+        <p class="demo-foot">${d.src} · <a href="https://www.youtube.com/watch?v=${d.id}" target="_blank" rel="noopener">open on YouTube</a> if it does not load.</p>
+      </div>
+    </details>`).join('');
+}
+
+function loadThumb(det){
+  const f = det.querySelector('.fac');
+  if(f && !f.dataset.thumbed){ f.style.backgroundImage = `url(https://i.ytimg.com/vi/${f.dataset.id}/hqdefault.jpg)`; f.dataset.thumbed='1'; }
+}
+function playFacade(f){
+  const id = f.dataset.id;
+  const ifr = document.createElement('iframe');
+  ifr.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
+  ifr.title = 'Demonstration';
+  ifr.loading = 'lazy';
+  ifr.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+  ifr.allowFullscreen = true;
+  f.parentElement.replaceChildren(ifr);
+}
+function openDemo(key){
+  const det = document.getElementById('demo-'+key);
+  if(!det) return;
+  det.open = true;
+  loadThumb(det);
+  det.scrollIntoView({ behavior:'smooth', block:'center' });
+}
+function setupDemos(){
+  const list = document.getElementById('demos-list');
+  if(list){
+    list.innerHTML = demosHTML();
+    list.querySelectorAll('details').forEach(det=>{
+      det.addEventListener('toggle', ()=>{ if(det.open) loadThumb(det); });
+    });
+    list.querySelectorAll('.fac').forEach(f=>{
+      f.addEventListener('click', ()=> playFacade(f));
+    });
+  }
+  // openers that live in the static Plan notes
+  document.querySelectorAll('.ref [data-demo]').forEach(b=>{
+    b.addEventListener('click', ()=> openDemo(b.dataset.demo));
+  });
+}
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const FULLDOW = {Mon:'Monday',Tue:'Tuesday',Wed:'Wednesday',Thu:'Thursday',Fri:'Friday',Sat:'Saturday',Sun:'Sunday'};
@@ -586,12 +678,12 @@ function fmtRange(a,b){
 function contextBlock(type){
   if(type==='strength'){
     return `<div class="mini"><h4>The session · tap for a demo</h4><ul>
-      <li><span>3×12</span><div>${vlink('Glute bridges','glute bridge exercise proper form')}</div></li>
-      <li><span>3×8</span><div>${vlink('Step-ups, each leg','step up exercise proper form technique')}</div></li>
-      <li><span>3×8–10</span><div>${vlink('Romanian / light deadlift','romanian deadlift dumbbell proper form')}</div></li>
-      <li><span>3×12–15</span><div>${vlink('Calf raises','calf raise exercise proper form')}</div></li>
-      <li><span>2×30s</span><div>${vlink('Side plank, each side','side plank proper form technique')}</div></li>
-      <li><span>opt.</span><div>${vlink('Banded side steps','banded lateral walk side step exercise')}</div></li>
+      <li><span>3×12</span><div>${dbtn('glute','Glute bridges')}</div></li>
+      <li><span>3×8</span><div>${dbtn('stepup','Step-ups, each leg')}</div></li>
+      <li><span>3×8–10</span><div>${dbtn('rdl','Romanian / light deadlift')}</div></li>
+      <li><span>3×12–15</span><div>${dbtn('calf','Calf raises')}</div></li>
+      <li><span>2×30s</span><div>${dbtn('plank','Side plank, each side')}</div></li>
+      <li><span>opt.</span><div>${dbtn('band','Banded side steps')}</div></li>
     </ul></div>`;
   }
   if(type==='run'||type==='jog'){
@@ -599,7 +691,7 @@ function contextBlock(type){
       <li><span>pace</span><div>Easy, 7:45–8:30 /km</div></li>
       <li><span>walk</span><div>9 run / 1 walk whenever you need it</div></li>
       <li><span>knee</span><div>Stop at 4–5/10 pain</div></li>
-      <li><span>form</span><div>${vlink('Run / walk method','jeff galloway run walk method beginner')}</div></li>
+      <li><span>form</span><div>${dbtn('runwalk','Run / walk method')}</div></li>
     </ul></div>`;
   }
   if(type==='longrun'){
@@ -607,7 +699,7 @@ function contextBlock(type){
       <li><span>pace</span><div>Very easy, 8:00–9:00 /km</div></li>
       <li><span>walk</span><div>9 run / 1 walk from the start if needed</div></li>
       <li><span>knee</span><div>Stop at 4–5/10 pain</div></li>
-      <li><span>form</span><div>${vlink('Run / walk method','jeff galloway run walk method beginner')}</div></li>
+      <li><span>form</span><div>${dbtn('runwalk','Run / walk method')}</div></li>
     </ul></div>`;
   }
   if(type==='race'){
@@ -890,6 +982,10 @@ function render(){
     const reset = acts.querySelector('[data-act="reset"]'); if(reset) reset.addEventListener('click', ()=> resetDay(date));
     acts.querySelector('[data-act="change"]').addEventListener('change', e=>{ if(e.target.value) changeActivity(date, e.target.value); });
     acts.querySelector('[data-act="swap"]').addEventListener('change', e=>{ if(e.target.value) swapDays(date, e.target.value); });
+
+    day.querySelectorAll('[data-demo]').forEach(b=>{
+      b.addEventListener('click', e=>{ e.stopPropagation(); openDemo(b.dataset.demo); });
+    });
   });
 
   updateProgress();
@@ -949,6 +1045,7 @@ async function boot(){
   setupNotifBtn();
   setupCalBtn();
   setupAdjust();
+  setupDemos();
   maybeNotify();
 }
 boot();
