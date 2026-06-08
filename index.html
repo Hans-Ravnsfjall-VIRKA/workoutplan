@@ -1,0 +1,710 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f4f6f7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1a1d20" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Half">
+<title>Half Marathon</title>
+<style>
+  :root{
+    --bg: oklch(0.985 0.004 220);
+    --surface: oklch(0.998 0.002 220);
+    --surface-2: oklch(0.965 0.004 220);
+    --text: oklch(0.255 0.012 235);
+    --text-2: oklch(0.52 0.012 235);
+    --text-3: oklch(0.64 0.010 235);
+    --hair: oklch(0.90 0.006 235);
+    --accent: oklch(0.555 0.098 214);
+    --accent-strong: oklch(0.48 0.105 214);
+    --accent-soft: oklch(0.955 0.026 214);
+    --warn-soft: oklch(0.965 0.038 78);
+    --warn-text: oklch(0.52 0.095 62);
+    --warn-line: oklch(0.78 0.09 72);
+    --shadow: 0 1px 2px oklch(0.5 0.02 235 / 0.05), 0 8px 24px oklch(0.5 0.02 235 / 0.06);
+    --glass: oklch(0.985 0.004 220 / 0.72);
+    --r-lg: 22px;
+    --r-md: 15px;
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg: oklch(0.165 0.008 235);
+      --surface: oklch(0.212 0.008 235);
+      --surface-2: oklch(0.252 0.009 235);
+      --text: oklch(0.955 0.006 230);
+      --text-2: oklch(0.72 0.010 230);
+      --text-3: oklch(0.60 0.010 230);
+      --hair: oklch(0.32 0.008 235);
+      --accent: oklch(0.74 0.105 209);
+      --accent-strong: oklch(0.80 0.108 209);
+      --accent-soft: oklch(0.30 0.045 214);
+      --warn-soft: oklch(0.30 0.046 70);
+      --warn-text: oklch(0.85 0.085 80);
+      --warn-line: oklch(0.46 0.07 70);
+      --shadow: 0 1px 2px oklch(0 0 0 / 0.3), 0 10px 30px oklch(0 0 0 / 0.28);
+      --glass: oklch(0.165 0.008 235 / 0.74);
+    }
+  }
+
+  *{ box-sizing: border-box; }
+  html{ -webkit-text-size-adjust: 100%; }
+  body{
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 400 17px/1.45 -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro", "Segoe UI", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    letter-spacing: -0.011em;
+  }
+  .wrap{ max-width: 460px; margin: 0 auto; padding: 0 18px calc(64px + env(safe-area-inset-bottom)); }
+
+  /* ---------- header ---------- */
+  header{
+    position: sticky; top: 0; z-index: 20;
+    background: var(--glass);
+    -webkit-backdrop-filter: saturate(180%) blur(22px);
+    backdrop-filter: saturate(180%) blur(22px);
+    border-bottom: 0.5px solid var(--hair);
+    padding-top: env(safe-area-inset-top);
+  }
+  .head-inner{ max-width: 460px; margin: 0 auto; padding: 11px 18px 13px; }
+  .head-row{ display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+  .head-row h1{ font-size: 21px; font-weight: 700; margin: 0; letter-spacing: -0.02em; }
+  .count{ font-size: 13px; font-weight: 500; color: var(--text-3); font-variant-numeric: tabular-nums; flex: none; }
+  .count b{ color: var(--accent-strong); font-weight: 600; }
+  .track{ height: 5px; border-radius: 999px; background: var(--surface-2); margin-top: 11px; overflow: hidden; }
+  @media (prefers-color-scheme: dark){ .track{ background: oklch(0.30 0.008 235); } }
+  .fill{ height: 100%; width: 0; border-radius: 999px;
+    background: linear-gradient(90deg, var(--accent-strong), var(--accent));
+    transition: width 0.6s var(--ease); }
+
+  /* ---------- today hero ---------- */
+  .hero{
+    margin-top: 22px;
+    background: var(--accent-soft);
+    border: 0.5px solid color-mix(in oklch, var(--accent) 22%, transparent);
+    border-radius: var(--r-lg);
+    padding: 20px 20px 18px;
+  }
+  .hero .kicker{ display:flex; align-items:center; gap: 8px;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--accent-strong); }
+  .hero .kicker .dot{ width: 7px; height: 7px; border-radius: 999px; background: var(--accent);
+    box-shadow: 0 0 0 4px color-mix(in oklch, var(--accent) 18%, transparent); }
+  .hero-main{ display:flex; align-items: flex-start; gap: 16px; margin-top: 12px; }
+  .hero-text{ flex: 1; min-width: 0; }
+  .hero-text h2{ margin: 0; font-size: 27px; line-height: 1.12; font-weight: 700; letter-spacing: -0.025em; }
+  .hero-text p{ margin: 7px 0 0; font-size: 15px; line-height: 1.42; color: var(--text-2); }
+  .hero-note{ margin-top: 14px; padding-top: 14px; border-top: 0.5px solid color-mix(in oklch, var(--accent) 18%, transparent);
+    font-size: 13.5px; line-height: 1.45; color: var(--text-2); }
+  .hero-note strong{ color: var(--text); font-weight: 600; }
+
+  /* big check */
+  .check{
+    flex: none; width: 32px; height: 32px; border-radius: 999px;
+    border: 2px solid color-mix(in oklch, var(--text-3) 60%, transparent);
+    background: transparent; cursor: pointer; padding: 0;
+    display: grid; place-items: center;
+    transition: background 0.25s var(--ease), border-color 0.25s var(--ease), transform 0.18s var(--ease);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .check:active{ transform: scale(0.9); }
+  .check svg{ width: 18px; height: 18px; stroke: var(--surface); stroke-width: 2.6;
+    stroke-linecap: round; stroke-linejoin: round; fill: none;
+    stroke-dasharray: 22; stroke-dashoffset: 22; transition: stroke-dashoffset 0.3s var(--ease) 0.05s; }
+  .hero .check{ width: 40px; height: 40px; margin-top: 2px; }
+  .hero .check svg{ width: 22px; height: 22px; }
+  .is-done .check, .check.done{
+    background: var(--accent); border-color: var(--accent);
+  }
+  .is-done .check svg, .check.done svg{ stroke-dashoffset: 0; }
+  .check:focus-visible{ outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  /* ---------- catch-up banner ---------- */
+  .catchup{
+    margin-top: 22px;
+    background: var(--warn-soft);
+    border: 0.5px solid color-mix(in oklch, var(--warn-line) 60%, transparent);
+    border-radius: var(--r-lg);
+    padding: 17px 18px 14px;
+  }
+  .catchup .cu-head{ display:flex; align-items:center; gap: 9px; }
+  .catchup .cu-head svg{ width: 18px; height: 18px; flex:none; stroke: var(--warn-text); stroke-width: 1.8; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+  .catchup .cu-head h2{ margin:0; font-size: 16px; font-weight: 700; letter-spacing: -0.01em; color: var(--warn-text); }
+  .catchup .cu-sub{ margin: 6px 0 0; font-size: 14px; line-height: 1.4; color: var(--text-2); }
+  .cu-list{ margin: 13px 0 0; display: flex; flex-direction: column; gap: 2px; }
+  .cu-item{ display:flex; align-items:center; gap: 12px; padding: 8px 0; }
+  .cu-item:not(:first-child){ border-top: 0.5px solid color-mix(in oklch, var(--warn-line) 35%, transparent); }
+  .cu-item .check{ width: 26px; height: 26px; border-width: 1.8px; }
+  .cu-item .check svg{ width: 15px; height: 15px; }
+  .cu-item .cu-body{ flex:1; min-width:0; }
+  .cu-item .cu-body .t{ font-size: 16px; font-weight: 500; }
+  .cu-item .cu-body .m{ font-size: 13px; color: var(--text-3); font-variant-numeric: tabular-nums; }
+  .cu-foot{ margin-top: 12px; display:flex; gap: 18px; align-items:center; }
+  .cu-btn{ background:none; border:0; padding: 4px 0; font: inherit; font-size: 14px; font-weight: 600;
+    color: var(--text-2); cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .cu-btn:focus-visible{ outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  .cu-btn.primary{ color: var(--warn-text); }
+
+  /* ---------- week sections ---------- */
+  section{ margin-top: 30px; }
+  .wk-head{ display: flex; align-items: center; gap: 10px; padding: 0 4px 9px; }
+  .wk-head .n{ font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-2); }
+  .wk-head .range{ font-size: 13px; color: var(--text-3); font-variant-numeric: tabular-nums; margin-left: auto; }
+  .pill{ font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 999px; background: var(--surface-2); color: var(--text-2); }
+  .pill.hot{ background: var(--accent); color: var(--surface); }
+
+  .list{ background: var(--surface); border-radius: var(--r-lg); box-shadow: var(--shadow); overflow: hidden; }
+
+  .day{ position: relative; }
+  .day-row{ display: flex; align-items: center; gap: 13px; padding: 13px 16px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .day:not(:first-child) .day-row::before{ content:""; position:absolute; left: 61px; right: 0; top: 0; height: 0.5px; background: var(--hair); }
+  .day-row .check{ width: 26px; height: 26px; border-width: 1.8px; }
+  .day-row .check svg{ width: 15px; height: 15px; }
+  .glyph{ flex: none; width: 22px; height: 22px; color: var(--text-3); display: grid; place-items: center; }
+  .glyph svg{ width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  .day-body{ flex: 1; min-width: 0; }
+  .day-body .t{ font-size: 17px; font-weight: 500; letter-spacing: -0.015em; }
+  .day-body .m{ font-size: 13px; color: var(--text-3); margin-top: 1px; font-variant-numeric: tabular-nums; }
+  .chev{ flex: none; color: var(--text-3); transition: transform 0.3s var(--ease); }
+  .chev svg{ width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+  .day.is-today{ background: var(--accent-soft); }
+  .day.is-today .glyph{ color: var(--accent-strong); }
+  .day.open .chev{ transform: rotate(90deg); }
+
+  .day.is-done .day-body .t{ color: var(--text-3); }
+  .day.is-done .glyph{ opacity: 0.55; }
+
+  /* expandable detail */
+  .detail{ display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.34s var(--ease); }
+  .day.open .detail{ grid-template-rows: 1fr; }
+  .detail-inner{ overflow: hidden; }
+  .detail-pad{ padding: 0 16px 15px 61px; }
+  .detail-pad p{ margin: 0; font-size: 14.5px; line-height: 1.46; color: var(--text-2); }
+  .mini{ margin-top: 12px; }
+  .mini h4{ margin: 0 0 7px; font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-3); }
+  .mini ul{ margin: 0; padding: 0; list-style: none; }
+  .mini li{ font-size: 14px; line-height: 1.5; color: var(--text-2); display: flex; gap: 9px; }
+  .mini li span{ color: var(--text-3); font-variant-numeric: tabular-nums; flex: none; min-width: 0; }
+  .mini li b{ color: var(--text); font-weight: 600; }
+  .vlink{ color: var(--accent-strong); text-decoration: none; font-weight: 500; white-space: nowrap; }
+  .vlink .play-i{ width: 12px; height: 12px; fill: var(--accent-strong); stroke: none; opacity: 0.9; vertical-align: -1px; margin-left: 4px; }
+  .vlink:hover{ text-decoration: underline; }
+  .vlink:focus-visible{ outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+
+  /* ---------- reference ---------- */
+  .ref{ margin-top: 36px; }
+  .ref > h3{ font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-2); padding: 0 4px 9px; margin: 0; }
+  .ref-list{ background: var(--surface); border-radius: var(--r-lg); box-shadow: var(--shadow); overflow: hidden; }
+  details{ }
+  details + details{ border-top: 0.5px solid var(--hair); }
+  summary{ list-style: none; cursor: pointer; padding: 15px 16px; font-size: 16px; font-weight: 500;
+    display: flex; align-items: center; justify-content: space-between; -webkit-tap-highlight-color: transparent; }
+  summary::-webkit-details-marker{ display: none; }
+  summary .mk{ color: var(--text-3); transition: transform 0.3s var(--ease); }
+  summary .mk svg{ width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  details[open] summary .mk{ transform: rotate(90deg); }
+  .ref-body{ padding: 0 16px 16px; font-size: 14.5px; line-height: 1.55; color: var(--text-2); }
+  .ref-body p{ margin: 0 0 9px; }
+  .ref-body p:last-child{ margin-bottom: 0; }
+  .ref-body strong{ color: var(--text); font-weight: 600; }
+  .ref-body ul{ margin: 0; padding-left: 0; list-style: none; }
+  .ref-body ul li{ padding: 4px 0; display:flex; gap: 10px; }
+  .ref-body ul li::before{ content:""; flex:none; width:5px; height:5px; border-radius:999px; background: var(--accent); margin-top: 9px; }
+
+  footer{ text-align: center; color: var(--text-3); font-size: 12px; margin-top: 28px; line-height: 1.5; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="head-inner">
+    <div class="head-row">
+      <h1>Half Marathon</h1>
+      <div class="count"><b id="done-n">0</b> of <span id="total-n">84</span> days</div>
+    </div>
+    <div class="track"><div class="fill" id="fill"></div></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div id="catchup"></div>
+  <div id="hero"></div>
+  <div id="weeks"></div>
+
+  <div class="ref">
+    <h3>Plan notes</h3>
+    <div class="ref-list">
+      <details>
+        <summary>How to pace it <span class="mk"></span></summary>
+        <div class="ref-body">
+          <p>Most runs should feel <strong>easy</strong>: you can hold a conversation.</p>
+          <ul>
+            <li>Easy pace: around 7:45–8:30 /km</li>
+            <li>Long run pace: around 8:00–9:00 /km</li>
+            <li>When in doubt, go slower.</li>
+          </ul>
+        </div>
+      </details>
+      <details>
+        <summary>The knee rule <span class="mk"></span></summary>
+        <div class="ref-body">
+          <ul>
+            <li><strong>0–3 / 10</strong>: fine, as long as it does not get worse.</li>
+            <li><strong>4–5 / 10</strong>: reduce or stop the session.</li>
+            <li>Sharp pain, limping, swelling, locking, instability, or worse pain the next day. Stop running and consider seeing a physio.</li>
+          </ul>
+        </div>
+      </details>
+      <details>
+        <summary>Run / walk <span class="mk"></span></summary>
+        <div class="ref-body">
+          <p>Use it whenever you need to. Two options:</p>
+          <ul>
+            <li>9 min run / 1 min walk</li>
+            <li>4 min run / 1 min walk on harder days</li>
+          </ul>
+        </div>
+      </details>
+      <details>
+        <summary>Strength session <span class="mk"></span></summary>
+        <div class="ref-body">
+          <p>Twice a week, 25–35 min. Keep everything controlled and pain-free. Tap an exercise for a demonstration.</p>
+          <ul>
+            <li><span><a class="vlink" href="https://www.youtube.com/results?search_query=glute%20bridge%20exercise%20proper%20form" target="_blank" rel="noopener">Glute bridges</a>: 3 × 12</span></li>
+            <li><span><a class="vlink" href="https://www.youtube.com/results?search_query=step%20up%20exercise%20proper%20form%20technique" target="_blank" rel="noopener">Step-ups</a>: 3 × 8 each leg</span></li>
+            <li><span><a class="vlink" href="https://www.youtube.com/results?search_query=romanian%20deadlift%20dumbbell%20proper%20form" target="_blank" rel="noopener">Romanian / light deadlift</a>: 3 × 8–10</span></li>
+            <li><span><a class="vlink" href="https://www.youtube.com/results?search_query=calf%20raise%20exercise%20proper%20form" target="_blank" rel="noopener">Calf raises</a>: 3 × 12–15</span></li>
+            <li><span><a class="vlink" href="https://www.youtube.com/results?search_query=side%20plank%20proper%20form%20technique" target="_blank" rel="noopener">Side plank</a>: 2 × 30 sec each side</span></li>
+            <li><span><a class="vlink" href="https://www.youtube.com/results?search_query=banded%20lateral%20walk%20side%20step%20exercise" target="_blank" rel="noopener">Banded side steps</a> (optional): 2 × 12 each side</span></li>
+          </ul>
+        </div>
+      </details>
+      <details>
+        <summary>If the knee gets worse <span class="mk"></span></summary>
+        <div class="ref-body">
+          <ul>
+            <li>Replace the next run with bike or spinning.</li>
+            <li>Repeat the same week instead of adding distance.</li>
+            <li>Do not increase the long run until the knee is stable again.</li>
+          </ul>
+          <p style="margin-top:9px">Priorities, in order: stay injury-free, build the long run, lose weight gradually, improve speed later.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Reminders <span class="mk"></span></summary>
+        <div class="ref-body">
+          <p>When you open the app, it checks for earlier sessions you have not ticked off and shows them at the top.</p>
+          <p>You can also let it show a system notification each time you open it with sessions outstanding.</p>
+          <button class="cu-btn primary" id="notif-btn" style="margin-top:4px">Turn on notifications</button>
+          <p id="notif-state" style="margin-top:9px;color:var(--text-3)"></p>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <footer>Goal: finish healthy and strong on 30 August.<br>Tap a circle when a session is done.</footer>
+</main>
+
+<script>
+/* embedded plan as a fallback so the app also works when opened from file://.
+   On a real host (e.g. GitHub Pages) it loads training-plan.csv instead. */
+const CSV_FALLBACK = `week,phase,date,dow,type,title,detail
+1,,2026-06-08,Mon,strength,Strength,No running today. Strength 25–35 min. Add an easy 20–30 min walk if you feel like it.
+1,,2026-06-09,Tue,run,Easy run,"Easy run 4 km. Your first run. Keep it genuinely easy, 7:45–8:30 /km. Use run/walk whenever you need to."
+1,,2026-06-10,Wed,cardio,Bike or spinning,"Bike or spinning 35–45 min, easy and low-impact."
+1,,2026-06-11,Thu,run,Easy run,"Easy run 4 km. Easy pace, run/walk allowed."
+1,,2026-06-12,Fri,strength,Strength,Strength 25–35 min. Controlled and pain-free.
+1,,2026-06-13,Sat,rest,Rest,"Rest, or an easy walk if you want to move."
+1,,2026-06-14,Sun,longrun,Long run,"Long run 5–6 km, very easy. 8:00–9:00 /km."
+2,,2026-06-15,Mon,rest,Rest,"Rest, or an easy walk."
+2,,2026-06-16,Tue,run,Easy run,Easy run 4 km.
+2,,2026-06-17,Wed,cardio,Bike or spinning,"Bike or spinning 40–45 min, easy."
+2,,2026-06-18,Thu,run,Easy run,Easy run 4–5 km.
+2,,2026-06-19,Fri,strength,Strength,Strength 25–35 min.
+2,,2026-06-20,Sat,rest,Rest,Rest.
+2,,2026-06-21,Sun,longrun,Long run,"Long run 6–7 km, very easy."
+3,,2026-06-22,Mon,rest,Rest,"Rest, or an easy walk."
+3,,2026-06-23,Tue,run,Easy run,Easy run 4–5 km.
+3,,2026-06-24,Wed,cardio,Bike or spinning,"Bike or spinning 40–50 min, easy."
+3,,2026-06-25,Thu,run,Easy run,Easy run 5 km.
+3,,2026-06-26,Fri,strength,Strength,Strength 25–35 min.
+3,,2026-06-27,Sat,rest,Rest,Rest.
+3,,2026-06-28,Sun,longrun,Long run,"Long run 7–8 km, very easy."
+4,Recovery,2026-06-29,Mon,rest,Rest,"Rest, or an easy walk."
+4,Recovery,2026-06-30,Tue,run,Easy run,Easy run 4 km.
+4,Recovery,2026-07-01,Wed,cardio,Bike or spinning,"Bike or spinning 30–40 min, easy."
+4,Recovery,2026-07-02,Thu,run,Easy run,Easy run 4 km.
+4,Recovery,2026-07-03,Fri,strength,Strength,"Strength 25–30 min, light."
+4,Recovery,2026-07-04,Sat,rest,Rest,Rest.
+4,Recovery,2026-07-05,Sun,longrun,Long run,"Long run 6 km, very easy."
+5,,2026-07-06,Mon,rest,Rest,"Rest, or an easy walk."
+5,,2026-07-07,Tue,run,Easy run,Easy run 5 km.
+5,,2026-07-08,Wed,cardio,Bike or spinning,"Bike or spinning 40–50 min, easy."
+5,,2026-07-09,Thu,run,Easy run,Easy run 5 km.
+5,,2026-07-10,Fri,strength,Strength,Strength 25–35 min.
+5,,2026-07-11,Sat,rest,Rest,Rest.
+5,,2026-07-12,Sun,longrun,Long run,"Long run 9 km, very easy."
+6,,2026-07-13,Mon,rest,Rest,"Rest, or an easy walk."
+6,,2026-07-14,Tue,run,Easy run,Easy run 5 km.
+6,,2026-07-15,Wed,cardio,Bike or spinning,"Bike or spinning 45–55 min, easy."
+6,,2026-07-16,Thu,run,Easy run,Easy run 5–6 km.
+6,,2026-07-17,Fri,strength,Strength,Strength 25–35 min.
+6,,2026-07-18,Sat,rest,Rest,Rest.
+6,,2026-07-19,Sun,longrun,Long run,"Long run 10 km, very easy."
+7,Recovery,2026-07-20,Mon,rest,Rest,"Rest, or an easy walk."
+7,Recovery,2026-07-21,Tue,run,Easy run,Easy run 4–5 km.
+7,Recovery,2026-07-22,Wed,cardio,Bike or spinning,"Bike or spinning 35–45 min, easy."
+7,Recovery,2026-07-23,Thu,run,Easy run,Easy run 5 km.
+7,Recovery,2026-07-24,Fri,strength,Strength,"Strength 25–30 min, light."
+7,Recovery,2026-07-25,Sat,rest,Rest,Rest.
+7,Recovery,2026-07-26,Sun,longrun,Long run,"Long run 7–8 km, very easy."
+8,,2026-07-27,Mon,rest,Rest,"Rest, or an easy walk."
+8,,2026-07-28,Tue,run,Easy run,Easy run 5 km.
+8,,2026-07-29,Wed,cardio,Bike or spinning,"Bike or spinning 45–55 min, easy."
+8,,2026-07-30,Thu,run,Easy run,Easy run 6 km.
+8,,2026-07-31,Fri,strength,Strength,Strength 25–35 min.
+8,,2026-08-01,Sat,rest,Rest,Rest.
+8,,2026-08-02,Sun,longrun,Long run,"Long run 11–12 km, very easy."
+9,,2026-08-03,Mon,rest,Rest,"Rest, or an easy walk."
+9,,2026-08-04,Tue,run,Easy run,Easy run 5–6 km.
+9,,2026-08-05,Wed,cardio,Bike or spinning,"Bike or spinning 45–60 min, easy."
+9,,2026-08-06,Thu,run,Easy run,Easy run 6 km.
+9,,2026-08-07,Fri,strength,Strength,Strength 25–35 min.
+9,,2026-08-08,Sat,rest,Rest,Rest.
+9,,2026-08-09,Sun,longrun,Long run,"Long run 13–14 km, very easy."
+10,Peak,2026-08-10,Mon,rest,Rest,"Rest, or an easy walk."
+10,Peak,2026-08-11,Tue,run,Easy run,Easy run 6 km.
+10,Peak,2026-08-12,Wed,cardio,Bike or spinning,"Bike or spinning 40–50 min, easy."
+10,Peak,2026-08-13,Thu,run,Easy run,Easy run 6–7 km.
+10,Peak,2026-08-14,Fri,strength,Strength,"Strength 20–30 min, not too heavy."
+10,Peak,2026-08-15,Sat,rest,Rest,Rest.
+10,Peak,2026-08-16,Sun,longrun,Long run,"Long run 15–16 km, very easy. The most important week. Do not run fast. The goal is simply to finish the distance without making the knee worse."
+11,Taper,2026-08-17,Mon,rest,Rest,"Rest, or an easy walk."
+11,Taper,2026-08-18,Tue,run,Easy run,Easy run 5 km.
+11,Taper,2026-08-19,Wed,cardio,Bike or spinning,"Bike or spinning 30–40 min, easy."
+11,Taper,2026-08-20,Thu,run,Easy run,Easy run 5–6 km.
+11,Taper,2026-08-21,Fri,strength,Strength,Light strength 20–25 min.
+11,Taper,2026-08-22,Sat,rest,Rest,Rest.
+11,Taper,2026-08-23,Sun,longrun,Long run,"Long run 10–12 km, very easy."
+12,Race,2026-08-24,Mon,rest,Rest,"Rest, or an easy walk."
+12,Race,2026-08-25,Tue,run,Easy run,Easy run 4–5 km.
+12,Race,2026-08-26,Wed,rest,Rest,"Rest, or an easy 25–35 min bike."
+12,Race,2026-08-27,Thu,run,Easy run,Easy run 3–4 km.
+12,Race,2026-08-28,Fri,rest,Rest,Rest.
+12,Race,2026-08-29,Sat,jog,Shakeout,"Very easy 15–20 min jog, or full rest."
+12,Race,2026-08-30,Sun,race,Half marathon,"Race day. Start slower than you think. Use run/walk (9 min run / 1 min walk) from the start if needed. First 5 km very easy, 5–15 km controlled, and only push after 15 km if the knee and energy feel good."
+`;
+
+const ICONS = {
+  run:'<svg viewBox="0 0 24 24"><circle cx="14.5" cy="4.8" r="1.9"/><path d="M13.2 8.2l-2.7 3.9 2.7 1.6 1 4.3"/><path d="M10.6 12.4l-3 1.6"/><path d="M13.4 10.8l3.2 1.1 2-1.4"/><path d="M14.7 18l-3.1 2.6"/></svg>',
+  longrun:'<svg viewBox="0 0 24 24"><circle cx="14.5" cy="4.8" r="1.9"/><path d="M13.2 8.2l-2.7 3.9 2.7 1.6 1 4.3"/><path d="M10.6 12.4l-3 1.6"/><path d="M13.4 10.8l3.2 1.1 2-1.4"/><path d="M14.7 18l-3.1 2.6"/></svg>',
+  jog:'<svg viewBox="0 0 24 24"><circle cx="14.5" cy="4.8" r="1.9"/><path d="M13.2 8.2l-2.7 3.9 2.7 1.6 1 4.3"/><path d="M10.6 12.4l-3 1.6"/><path d="M13.4 10.8l3.2 1.1 2-1.4"/><path d="M14.7 18l-3.1 2.6"/></svg>',
+  cardio:'<svg viewBox="0 0 24 24"><circle cx="6.4" cy="16" r="3.2"/><circle cx="17.6" cy="16" r="3.2"/><path d="M6.4 16l3.6-6.6h3.4l3.2 6.6"/><path d="M9.6 9.4h4.6"/></svg>',
+  strength:'<svg viewBox="0 0 24 24"><path d="M5 9.2v5.6M8 7.8v8.4M16 7.8v8.4M19 9.2v5.6M8 12h8"/></svg>',
+  rest:'<svg viewBox="0 0 24 24"><path d="M18.2 14.4A7 7 0 1 1 9.6 5.9a5.6 5.6 0 0 0 8.6 8.5z"/></svg>',
+  race:'<svg viewBox="0 0 24 24"><path d="M6.2 21V3.6M6.2 4.4h11.3l-2.1 3.6 2.1 3.6H6.2"/></svg>'
+};
+const TICK = '<svg viewBox="0 0 24 24"><path d="M5 12.6l4.2 4.2L19 7.2"/></svg>';
+const CHEV = '<svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>';
+const PLAY = '<svg class="play-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.2v13.6L19 12z"/></svg>';
+const YT = q => 'https://www.youtube.com/results?search_query=' + encodeURIComponent(q);
+const vlink = (label, query) => `<a class="vlink" href="${YT(query)}" target="_blank" rel="noopener">${label}${PLAY}</a>`;
+
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const FULLDOW = {Mon:'Monday',Tue:'Tuesday',Wed:'Wednesday',Thu:'Thursday',Fri:'Friday',Sat:'Saturday',Sun:'Sunday'};
+
+function parseCSV(text){
+  const rows=[]; let i=0, field='', row=[], inQ=false;
+  while(i<text.length){
+    const c=text[i];
+    if(inQ){
+      if(c==='"'){ if(text[i+1]==='"'){field+='"';i+=2;continue;} inQ=false;i++;continue; }
+      field+=c;i++;continue;
+    }
+    if(c==='"'){ inQ=true;i++;continue; }
+    if(c===','){ row.push(field);field='';i++;continue; }
+    if(c==='\r'){ i++;continue; }
+    if(c==='\n'){ row.push(field);rows.push(row);row=[];field='';i++;continue; }
+    field+=c;i++;
+  }
+  if(field.length||row.length){ row.push(field);rows.push(row); }
+  return rows;
+}
+
+function toData(text){
+  const rows = parseCSV(text.trim());
+  const head = rows.shift();
+  return rows.filter(r=>r.length>1).map(r=>{
+    const o={}; head.forEach((h,idx)=> o[h.trim()] = (r[idx]||'').trim()); return o;
+  });
+}
+
+const STORE = 'hm_done_v1';
+function loadDone(){ try{ return JSON.parse(localStorage.getItem(STORE)||'{}'); }catch(e){ return {}; } }
+function saveDone(d){ try{ localStorage.setItem(STORE, JSON.stringify(d)); }catch(e){} }
+
+const ACK_STORE = 'hm_ack_v1';
+function loadAck(){ try{ return JSON.parse(localStorage.getItem(ACK_STORE)||'{}'); }catch(e){ return {}; } }
+function saveAck(d){ try{ localStorage.setItem(ACK_STORE, JSON.stringify(d)); }catch(e){} }
+
+let DONE = loadDone();
+let ACK = loadAck();
+let DATA = [];
+
+function todayISO(){
+  const n = new Date();
+  return n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0');
+}
+function fmt(iso){ const [y,m,d]=iso.split('-').map(Number); return d+' '+MONTHS[m-1]; }
+function fmtRange(a,b){
+  const [ , am, ad]=a.split('-').map(Number); const [ , bm, bd]=b.split('-').map(Number);
+  return am===bm ? `${ad}–${bd} ${MONTHS[am-1]}` : `${ad} ${MONTHS[am-1]} – ${bd} ${MONTHS[bm-1]}`;
+}
+
+function contextBlock(type){
+  if(type==='strength'){
+    return `<div class="mini"><h4>The session · tap for a demo</h4><ul>
+      <li><span>3×12</span><div>${vlink('Glute bridges','glute bridge exercise proper form')}</div></li>
+      <li><span>3×8</span><div>${vlink('Step-ups, each leg','step up exercise proper form technique')}</div></li>
+      <li><span>3×8–10</span><div>${vlink('Romanian / light deadlift','romanian deadlift dumbbell proper form')}</div></li>
+      <li><span>3×12–15</span><div>${vlink('Calf raises','calf raise exercise proper form')}</div></li>
+      <li><span>2×30s</span><div>${vlink('Side plank, each side','side plank proper form technique')}</div></li>
+      <li><span>opt.</span><div>${vlink('Banded side steps','banded lateral walk side step exercise')}</div></li>
+    </ul></div>`;
+  }
+  if(type==='run'||type==='jog'){
+    return `<div class="mini"><h4>Keep in mind</h4><ul>
+      <li><span>pace</span><div>Easy, 7:45–8:30 /km</div></li>
+      <li><span>walk</span><div>9 run / 1 walk whenever you need it</div></li>
+      <li><span>knee</span><div>Stop at 4–5/10 pain</div></li>
+      <li><span>form</span><div>${vlink('Run / walk method','jeff galloway run walk method beginner')}</div></li>
+    </ul></div>`;
+  }
+  if(type==='longrun'){
+    return `<div class="mini"><h4>Keep in mind</h4><ul>
+      <li><span>pace</span><div>Very easy, 8:00–9:00 /km</div></li>
+      <li><span>walk</span><div>9 run / 1 walk from the start if needed</div></li>
+      <li><span>knee</span><div>Stop at 4–5/10 pain</div></li>
+      <li><span>form</span><div>${vlink('Run / walk method','jeff galloway run walk method beginner')}</div></li>
+    </ul></div>`;
+  }
+  if(type==='race'){
+    return `<div class="mini"><h4>Race plan</h4><ul>
+      <li><span>0–5k</span><div>Very easy. Slower than feels right.</div></li>
+      <li><span>5–15k</span><div>Stay controlled.</div></li>
+      <li><span>15k+</span><div>Push only if knee and energy feel good.</div></li>
+    </ul></div>`;
+  }
+  return '';
+}
+
+function setDone(date, val){
+  if(val) DONE[date]=true; else delete DONE[date];
+  saveDone(DONE);
+  document.querySelectorAll('[data-date="'+date+'"]').forEach(el=>{
+    el.classList.toggle('is-done', !!val);
+    const c = el.querySelector('.check'); if(c) c.setAttribute('aria-pressed', val?'true':'false');
+  });
+  updateProgress();
+  refreshCatchup();
+}
+
+function updateProgress(){
+  const total = DATA.length;
+  const done = DATA.filter(d=>DONE[d.date]).length;
+  document.getElementById('done-n').textContent = done;
+  document.getElementById('total-n').textContent = total;
+  document.getElementById('fill').style.width = (total? (done/total*100):0)+'%';
+}
+
+const BELL = '<svg viewBox="0 0 24 24"><path d="M18 8.5a6 6 0 1 0-12 0c0 5.5-2 7-2 7h16s-2-1.5-2-7"/><path d="M10.5 19.5a2 2 0 0 0 3 0"/></svg>';
+
+// a "missed" session = a past day (before today) that is not a rest day,
+// not yet checked off, and not yet acknowledged.
+function getMisses(){
+  const T = todayISO();
+  return DATA.filter(d => d.date < T && d.type !== 'rest' && !DONE[d.date] && !ACK[d.date]);
+}
+
+function refreshCatchup(){
+  const el = document.getElementById('catchup');
+  const misses = getMisses();
+  // browser-tab / pinned-tab badge
+  document.title = (misses.length ? '('+misses.length+') ' : '') + 'Half Marathon';
+
+  if(!misses.length){ el.innerHTML = ''; return; }
+  const n = misses.length;
+  const items = misses.map(d => `
+    <div class="cu-item" data-date="${d.date}">
+      <button class="check" aria-pressed="false" aria-label="Mark ${d.dow} ${d.title} done">${TICK}</button>
+      <div class="cu-body">
+        <div class="t">${d.title}</div>
+        <div class="m">${FULLDOW[d.dow]} · ${fmt(d.date)}</div>
+      </div>
+    </div>`).join('');
+  el.innerHTML = `
+    <div class="catchup">
+      <div class="cu-head">${BELL}<h2>Catch up</h2></div>
+      <p class="cu-sub">${n===1 ? 'One earlier session is still unchecked.' : n+' earlier sessions are still unchecked.'} Tick off the ones you did.</p>
+      <div class="cu-list">${items}</div>
+      <div class="cu-foot">
+        <button class="cu-btn primary" id="cu-dismiss">Dismiss</button>
+      </div>
+    </div>`;
+  el.querySelectorAll('.cu-item .check').forEach(btn=>{
+    const date = btn.closest('.cu-item').dataset.date;
+    btn.addEventListener('click', ()=> setDone(date, true));
+  });
+  document.getElementById('cu-dismiss').addEventListener('click', ()=>{
+    getMisses().forEach(d => ACK[d.date]=true);
+    saveAck(ACK);
+    refreshCatchup();
+  });
+}
+
+/* Optional system notification, fired when the app is opened with sessions
+   outstanding. There is no server, so this cannot fire while the app is closed. */
+function maybeNotify(){
+  if(!('Notification' in window) || Notification.permission !== 'granted') return;
+  const misses = getMisses();
+  if(!misses.length) return;
+  const n = misses.length;
+  try{
+    new Notification('Half Marathon', {
+      body: n===1 ? 'You have 1 session to catch up on.' : 'You have '+n+' sessions to catch up on.',
+      tag: 'hm-catchup'
+    });
+  }catch(e){}
+}
+
+function setupNotifBtn(){
+  const btn = document.getElementById('notif-btn');
+  const state = document.getElementById('notif-state');
+  if(!btn) return;
+  const sync = ()=>{
+    if(!('Notification' in window)){ btn.style.display='none'; state.textContent='This browser does not support notifications.'; return; }
+    const p = Notification.permission;
+    if(p==='granted'){ btn.style.display='none'; state.textContent='On. A notification will show when you open the app with sessions outstanding.'; }
+    else if(p==='denied'){ btn.style.display='none'; state.textContent='Notifications are blocked in your browser settings.'; }
+    else { btn.style.display=''; state.textContent='Reminders appear when you open the app, not in the background.'; }
+  };
+  btn.addEventListener('click', async ()=>{
+    try{ await Notification.requestPermission(); }catch(e){}
+    sync(); maybeNotify();
+  });
+  sync();
+}
+
+function render(){
+  const T = todayISO();
+
+  // ----- hero (today, or next upcoming day if plan hasn't started / has finished) -----
+  let today = DATA.find(d=>d.date===T);
+  let heroLabel = 'Today';
+  if(!today){
+    const up = DATA.find(d=>d.date>T);
+    if(up){ today = up; heroLabel = 'Next up'; }
+    else { today = DATA[DATA.length-1]; heroLabel = 'Final session'; }
+  }
+  const heroDone = !!DONE[today.date];
+  document.getElementById('hero').innerHTML = `
+    <div class="hero ${heroDone?'is-done':''}" data-date="${today.date}">
+      <div class="kicker"><span class="dot"></span>${heroLabel} · ${FULLDOW[today.dow]} ${fmt(today.date)}</div>
+      <div class="hero-main">
+        <div class="hero-text">
+          <h2>${today.title}</h2>
+          <p>${today.detail}</p>
+        </div>
+        <button class="check ${heroDone?'done':''}" aria-pressed="${heroDone}" aria-label="Mark ${today.title} done">${TICK}</button>
+      </div>
+      ${heroNote(today.type)}
+    </div>`;
+  document.querySelector('#hero .check').addEventListener('click', ()=> setDone(today.date, !DONE[today.date]));
+
+  // ----- weeks -----
+  const byWeek = {};
+  DATA.forEach(d=>{ (byWeek[d.week] ||= []).push(d); });
+  const weeksEl = document.getElementById('weeks');
+  weeksEl.innerHTML = Object.keys(byWeek).map(w=>{
+    const days = byWeek[w];
+    const phase = days[0].phase;
+    const hot = (phase==='Peak'||phase==='Race');
+    const range = fmtRange(days[0].date, days[days.length-1].date);
+    const rows = days.map(d=>{
+      const done = !!DONE[d.date];
+      const isToday = d.date===T;
+      return `
+      <div class="day ${done?'is-done':''} ${isToday?'is-today':''}" data-date="${d.date}">
+        <div class="day-row" role="button" tabindex="0" aria-expanded="false">
+          <button class="check ${done?'done':''}" aria-pressed="${done}" aria-label="Mark ${d.dow} ${d.title} done">${TICK}</button>
+          <div class="day-body">
+            <div class="t">${d.title}</div>
+            <div class="m">${d.dow} · ${fmt(d.date)}</div>
+          </div>
+          <div class="glyph">${ICONS[d.type]||''}</div>
+          <div class="chev">${CHEV}</div>
+        </div>
+        <div class="detail"><div class="detail-inner"><div class="detail-pad">
+          <p>${d.detail}</p>${contextBlock(d.type)}
+        </div></div></div>
+      </div>`;
+    }).join('');
+    return `<section>
+      <div class="wk-head">
+        <span class="n">Week ${w}</span>
+        ${phase?`<span class="pill ${hot?'hot':''}">${phase}</span>`:''}
+        <span class="range">${range}</span>
+      </div>
+      <div class="list">${rows}</div>
+    </section>`;
+  }).join('');
+
+  // wire up rows
+  weeksEl.querySelectorAll('.day').forEach(day=>{
+    const date = day.dataset.date;
+    const row = day.querySelector('.day-row');
+    const check = day.querySelector('.check');
+    check.addEventListener('click', e=>{ e.stopPropagation(); setDone(date, !DONE[date]); });
+    const toggle = ()=>{ const open = day.classList.toggle('open'); row.setAttribute('aria-expanded', open?'true':'false'); };
+    row.addEventListener('click', toggle);
+    row.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggle(); } });
+  });
+
+  updateProgress();
+  refreshCatchup();
+}
+
+function heroNote(type){
+  if(type==='strength') return `<div class="hero-note">Strength routine is in the session details and under <strong>Plan notes</strong> below.</div>`;
+  if(type==='rest') return `<div class="hero-note">Recovery is part of the plan. An easy walk is fine if you want to move.</div>`;
+  if(type==='race') return `<div class="hero-note"><strong>Start slower than you think.</strong> Finish healthy and strong.</div>`;
+  return `<div class="hero-note">Keep it easy and watch the knee: stop if pain reaches <strong>4–5 / 10</strong>.</div>`;
+}
+
+async function boot(){
+  let text = CSV_FALLBACK;
+  try{
+    const res = await fetch('training-plan.csv', {cache:'no-store'});
+    if(res.ok){ const t = await res.text(); if(t && t.indexOf('week')!==-1) text = t; }
+  }catch(e){ /* file:// or offline → use embedded */ }
+  DATA = toData(text);
+  document.querySelectorAll('.mk').forEach(m=> m.innerHTML = CHEV);
+  render();
+  setupNotifBtn();
+  maybeNotify();
+}
+boot();
+</script>
+</body>
+</html>

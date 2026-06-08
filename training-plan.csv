@@ -1,0 +1,85 @@
+week,phase,date,dow,type,title,detail
+1,,2026-06-08,Mon,strength,Strength,No running today. Strength 25–35 min. Add an easy 20–30 min walk if you feel like it.
+1,,2026-06-09,Tue,run,Easy run,"Easy run 4 km. Your first run. Keep it genuinely easy, 7:45–8:30 /km. Use run/walk whenever you need to."
+1,,2026-06-10,Wed,cardio,Bike or spinning,"Bike or spinning 35–45 min, easy and low-impact."
+1,,2026-06-11,Thu,run,Easy run,"Easy run 4 km. Easy pace, run/walk allowed."
+1,,2026-06-12,Fri,strength,Strength,Strength 25–35 min. Controlled and pain-free.
+1,,2026-06-13,Sat,rest,Rest,"Rest, or an easy walk if you want to move."
+1,,2026-06-14,Sun,longrun,Long run,"Long run 5–6 km, very easy. 8:00–9:00 /km."
+2,,2026-06-15,Mon,rest,Rest,"Rest, or an easy walk."
+2,,2026-06-16,Tue,run,Easy run,Easy run 4 km.
+2,,2026-06-17,Wed,cardio,Bike or spinning,"Bike or spinning 40–45 min, easy."
+2,,2026-06-18,Thu,run,Easy run,Easy run 4–5 km.
+2,,2026-06-19,Fri,strength,Strength,Strength 25–35 min.
+2,,2026-06-20,Sat,rest,Rest,Rest.
+2,,2026-06-21,Sun,longrun,Long run,"Long run 6–7 km, very easy."
+3,,2026-06-22,Mon,rest,Rest,"Rest, or an easy walk."
+3,,2026-06-23,Tue,run,Easy run,Easy run 4–5 km.
+3,,2026-06-24,Wed,cardio,Bike or spinning,"Bike or spinning 40–50 min, easy."
+3,,2026-06-25,Thu,run,Easy run,Easy run 5 km.
+3,,2026-06-26,Fri,strength,Strength,Strength 25–35 min.
+3,,2026-06-27,Sat,rest,Rest,Rest.
+3,,2026-06-28,Sun,longrun,Long run,"Long run 7–8 km, very easy."
+4,Recovery,2026-06-29,Mon,rest,Rest,"Rest, or an easy walk."
+4,Recovery,2026-06-30,Tue,run,Easy run,Easy run 4 km.
+4,Recovery,2026-07-01,Wed,cardio,Bike or spinning,"Bike or spinning 30–40 min, easy."
+4,Recovery,2026-07-02,Thu,run,Easy run,Easy run 4 km.
+4,Recovery,2026-07-03,Fri,strength,Strength,"Strength 25–30 min, light."
+4,Recovery,2026-07-04,Sat,rest,Rest,Rest.
+4,Recovery,2026-07-05,Sun,longrun,Long run,"Long run 6 km, very easy."
+5,,2026-07-06,Mon,rest,Rest,"Rest, or an easy walk."
+5,,2026-07-07,Tue,run,Easy run,Easy run 5 km.
+5,,2026-07-08,Wed,cardio,Bike or spinning,"Bike or spinning 40–50 min, easy."
+5,,2026-07-09,Thu,run,Easy run,Easy run 5 km.
+5,,2026-07-10,Fri,strength,Strength,Strength 25–35 min.
+5,,2026-07-11,Sat,rest,Rest,Rest.
+5,,2026-07-12,Sun,longrun,Long run,"Long run 9 km, very easy."
+6,,2026-07-13,Mon,rest,Rest,"Rest, or an easy walk."
+6,,2026-07-14,Tue,run,Easy run,Easy run 5 km.
+6,,2026-07-15,Wed,cardio,Bike or spinning,"Bike or spinning 45–55 min, easy."
+6,,2026-07-16,Thu,run,Easy run,Easy run 5–6 km.
+6,,2026-07-17,Fri,strength,Strength,Strength 25–35 min.
+6,,2026-07-18,Sat,rest,Rest,Rest.
+6,,2026-07-19,Sun,longrun,Long run,"Long run 10 km, very easy."
+7,Recovery,2026-07-20,Mon,rest,Rest,"Rest, or an easy walk."
+7,Recovery,2026-07-21,Tue,run,Easy run,Easy run 4–5 km.
+7,Recovery,2026-07-22,Wed,cardio,Bike or spinning,"Bike or spinning 35–45 min, easy."
+7,Recovery,2026-07-23,Thu,run,Easy run,Easy run 5 km.
+7,Recovery,2026-07-24,Fri,strength,Strength,"Strength 25–30 min, light."
+7,Recovery,2026-07-25,Sat,rest,Rest,Rest.
+7,Recovery,2026-07-26,Sun,longrun,Long run,"Long run 7–8 km, very easy."
+8,,2026-07-27,Mon,rest,Rest,"Rest, or an easy walk."
+8,,2026-07-28,Tue,run,Easy run,Easy run 5 km.
+8,,2026-07-29,Wed,cardio,Bike or spinning,"Bike or spinning 45–55 min, easy."
+8,,2026-07-30,Thu,run,Easy run,Easy run 6 km.
+8,,2026-07-31,Fri,strength,Strength,Strength 25–35 min.
+8,,2026-08-01,Sat,rest,Rest,Rest.
+8,,2026-08-02,Sun,longrun,Long run,"Long run 11–12 km, very easy."
+9,,2026-08-03,Mon,rest,Rest,"Rest, or an easy walk."
+9,,2026-08-04,Tue,run,Easy run,Easy run 5–6 km.
+9,,2026-08-05,Wed,cardio,Bike or spinning,"Bike or spinning 45–60 min, easy."
+9,,2026-08-06,Thu,run,Easy run,Easy run 6 km.
+9,,2026-08-07,Fri,strength,Strength,Strength 25–35 min.
+9,,2026-08-08,Sat,rest,Rest,Rest.
+9,,2026-08-09,Sun,longrun,Long run,"Long run 13–14 km, very easy."
+10,Peak,2026-08-10,Mon,rest,Rest,"Rest, or an easy walk."
+10,Peak,2026-08-11,Tue,run,Easy run,Easy run 6 km.
+10,Peak,2026-08-12,Wed,cardio,Bike or spinning,"Bike or spinning 40–50 min, easy."
+10,Peak,2026-08-13,Thu,run,Easy run,Easy run 6–7 km.
+10,Peak,2026-08-14,Fri,strength,Strength,"Strength 20–30 min, not too heavy."
+10,Peak,2026-08-15,Sat,rest,Rest,Rest.
+10,Peak,2026-08-16,Sun,longrun,Long run,"Long run 15–16 km, very easy. The most important week. Do not run fast. The goal is simply to finish the distance without making the knee worse."
+11,Taper,2026-08-17,Mon,rest,Rest,"Rest, or an easy walk."
+11,Taper,2026-08-18,Tue,run,Easy run,Easy run 5 km.
+11,Taper,2026-08-19,Wed,cardio,Bike or spinning,"Bike or spinning 30–40 min, easy."
+11,Taper,2026-08-20,Thu,run,Easy run,Easy run 5–6 km.
+11,Taper,2026-08-21,Fri,strength,Strength,Light strength 20–25 min.
+11,Taper,2026-08-22,Sat,rest,Rest,Rest.
+11,Taper,2026-08-23,Sun,longrun,Long run,"Long run 10–12 km, very easy."
+12,Race,2026-08-24,Mon,rest,Rest,"Rest, or an easy walk."
+12,Race,2026-08-25,Tue,run,Easy run,Easy run 4–5 km.
+12,Race,2026-08-26,Wed,rest,Rest,"Rest, or an easy 25–35 min bike."
+12,Race,2026-08-27,Thu,run,Easy run,Easy run 3–4 km.
+12,Race,2026-08-28,Fri,rest,Rest,Rest.
+12,Race,2026-08-29,Sat,jog,Shakeout,"Very easy 15–20 min jog, or full rest."
+12,Race,2026-08-30,Sun,race,Half marathon,"Race day. Start slower than you think. Use run/walk (9 min run / 1 min walk) from the start if needed. First 5 km very easy, 5–15 km controlled, and only push after 15 km if the knee and energy feel good."
