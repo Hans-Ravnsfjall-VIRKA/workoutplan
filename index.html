@@ -7,8 +7,8 @@
 <meta name="theme-color" content="#1a1d20" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Half">
-<title>Half Marathon</title>
+<meta name="apple-mobile-web-app-title" content="Ravnsfjall">
+<title>Hans Ravnsfjall</title>
 <style>
   :root{
     --bg: oklch(0.985 0.004 220);
@@ -230,7 +230,7 @@
 <header>
   <div class="head-inner">
     <div class="head-row">
-      <h1>Half Marathon</h1>
+      <h1>Hans Ravnsfjall</h1>
       <div class="count"><b id="done-n">0</b> of <span id="total-n">84</span> days</div>
     </div>
     <div class="track"><div class="fill" id="fill"></div></div>
@@ -541,7 +541,7 @@ function refreshCatchup(){
   const el = document.getElementById('catchup');
   const misses = getMisses();
   // browser-tab / pinned-tab badge
-  document.title = (misses.length ? '('+misses.length+') ' : '') + 'Half Marathon';
+  document.title = (misses.length ? '('+misses.length+') ' : '') + 'Hans Ravnsfjall';
 
   if(!misses.length){ el.innerHTML = ''; return; }
   const n = misses.length;
@@ -581,7 +581,7 @@ function maybeNotify(){
   if(!misses.length) return;
   const n = misses.length;
   try{
-    new Notification('Half Marathon', {
+    new Notification('Hans Ravnsfjall', {
       body: n===1 ? 'You have 1 session to catch up on.' : 'You have '+n+' sessions to catch up on.',
       tag: 'hm-catchup'
     });
